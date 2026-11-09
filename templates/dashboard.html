@@ -1,0 +1,434 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Professional Admin Dashboard</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/dashboard.css') }}">
+
+    <script src="{{ url_for('static', filename='js/dashboard.js') }}" defer></script>
+</head>
+
+<body>
+
+<div class="container">
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar" id="sidebar">
+
+        <div class="logo">
+            <span class="logo-icon">◆</span>
+            <h2>Admin<span>Panel</span></h2>
+        </div>
+
+        <p class="menu-title">MAIN MENU</p>
+
+        <nav>
+            <a href="#dashboard" class="nav-link active">▦ Dashboard</a>
+            <a href="#profile" class="nav-link">♙ My Profile</a>
+            <a href="#tasks" class="nav-link">☑ My Tasks</a>
+            <a href="#activity" class="nav-link">▤ Analytics</a>
+        </nav>
+
+        <p class="menu-title">ACCOUNT</p>
+
+        <nav>
+            <a href="#profile" class="nav-link">⚙ Settings</a>
+            <a href="{{ url_for('logout') }}" class="nav-link logout">
+                ↪ Logout
+            </a>
+        </nav>
+
+        <div class="sidebar-bottom">
+            <div class="mini-avatar">
+                {{ session['name'][0]|upper }}
+            </div>
+
+            <div>
+                <h4>{{ session['name'] }}</h4>
+                <small>Standard Member</small>
+            </div>
+        </div>
+
+    </aside>
+
+
+    <!-- MAIN CONTENT -->
+    <main class="main" id="dashboard">
+
+        <!-- TOPBAR -->
+        <header class="topbar">
+
+            <div class="top-left">
+                <button class="menu-toggle" id="menuToggle">☰</button>
+                <div>
+                    <h3>Dashboard</h3>
+                    <small>Welcome to your workspace</small>
+                </div>
+            </div>
+
+            <div class="top-right">
+
+                <input type="text" id="search"
+                       placeholder="Search dashboard...">
+
+                <button id="themeButton" class="theme-btn"
+                        title="Change theme">🌙</button>
+
+                <div class="top-avatar">
+                    {{ session['name'][0]|upper }}
+                </div>
+
+            </div>
+
+        </header>
+
+
+        <!-- WELCOME SECTION -->
+        <section class="welcome">
+
+            <div>
+                <p class="date-text" id="todayDate"></p>
+
+                <h1>
+                    Hello, {{ session['name'] }}!
+                </h1>
+
+                <p>
+                    Welcome back! Here's what's happening
+                    with your account today.
+                </p>
+            </div>
+
+            <button class="export-btn" onclick="window.print()">
+                ↓ Export Report
+            </button>
+
+        </section>
+
+
+        <!-- STATISTICS CARDS -->
+        <section class="cards">
+
+            <div class="card">
+                <div class="card-top">
+                    <span>Total Tasks</span>
+                    <div class="card-icon blue-icon">☑</div>
+                </div>
+
+                <h2 id="totalTasks">0</h2>
+                <small>Tasks created</small>
+            </div>
+
+
+            <div class="card">
+                <div class="card-top">
+                    <span>Completed Tasks</span>
+                    <div class="card-icon green-icon">✓</div>
+                </div>
+
+                <h2 id="completedTasks">0</h2>
+                <small>Successfully completed</small>
+            </div>
+
+
+            <div class="card">
+                <div class="card-top">
+                    <span>Pending Tasks</span>
+                    <div class="card-icon orange-icon">◷</div>
+                </div>
+
+                <h2 id="pendingTasks">0</h2>
+                <small>Tasks remaining</small>
+            </div>
+
+
+            <div class="card">
+                <div class="card-top">
+                    <span>Account Status</span>
+                    <div class="card-icon purple-icon">♙</div>
+                </div>
+
+                <h2 class="active-text">Active</h2>
+                <small>Your account is active</small>
+            </div>
+
+        </section>
+
+
+        <!-- ACTIVITY SECTION -->
+        <section class="box" id="activity">
+
+            <div class="section-heading">
+                <div>
+                    <h2>Account Overview</h2>
+                    <p>Your account activity summary</p>
+                </div>
+
+                <span class="status-badge">● Online</span>
+            </div>
+
+            <div class="activity">
+
+                <div class="activity-item">
+                    <div class="activity-info">
+                        <span>Profile Status</span>
+                        <strong>100%</strong>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-fill purple-fill"
+                             style="width:100%"></div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-info">
+                        <span>Account Security</span>
+                        <strong>100%</strong>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-fill green-fill"
+                             style="width:100%"></div>
+                    </div>
+                </div>
+
+                <div class="activity-item">
+                    <div class="activity-info">
+                        <span>Task Completion</span>
+                        <strong id="completionPercent">0%</strong>
+                    </div>
+                    <div class="progress">
+                        <div class="progress-fill blue-fill"
+                             id="taskProgress" style="width:0%"></div>
+                    </div>
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <!-- CHART AND TASKS -->
+        <section class="bottom">
+
+            <!-- MONTHLY CHART -->
+            <div class="box chart-box">
+
+                <div class="section-heading">
+                    <div>
+                        <h2>Monthly Activity</h2>
+                        <p>Sample activity overview</p>
+                    </div>
+
+                    <span class="chart-label">2026</span>
+                </div>
+
+                <div class="chart">
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:40%"></div>
+                        <span>Jan</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:65%"></div>
+                        <span>Feb</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:50%"></div>
+                        <span>Mar</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:85%"></div>
+                        <span>Apr</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:60%"></div>
+                        <span>May</span>
+                    </div>
+
+                    <div class="bar-wrapper">
+                        <div class="bar" style="height:95%"></div>
+                        <span>Jun</span>
+                    </div>
+
+                </div>
+
+                <small class="note">
+                    Demonstration data, not live database statistics.
+                </small>
+
+            </div>
+
+
+           <!-- TODO LIST -->
+<div class="box task-box" id="tasks">
+
+    <div class="section-heading">
+        <div>
+            <h2>My To-Do List</h2>
+            <p>Manage your daily activities</p>
+        </div>
+    </div>
+
+    <form id="taskForm">
+
+        <input
+            type="text"
+            id="taskInput"
+            placeholder="Enter a new task..."
+            maxlength="100"
+            required
+        >
+
+        <button type="submit">+ Add</button>
+
+    </form>
+
+    <p id="emptyMessage" class="task-empty">
+        No tasks yet. Add your first task!
+    </p>
+
+    <ul id="taskList"></ul>
+
+    <button id="clearCompleted">
+        Clear completed tasks
+    </button>
+
+</div>
+
+
+       <!-- PROFILE SETTINGS -->
+<section class="box profile-box" id="profile">
+
+    <div class="section-heading">
+        <div>
+            <h2>My Profile & Settings</h2>
+            <p>Manage your personal information and security</p>
+        </div>
+    </div>
+
+    <!-- FLASH MESSAGES -->
+    {% with messages = get_flashed_messages() %}
+        {% for message in messages %}
+            <div class="flash-message">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endwith %}
+
+    <div class="settings-grid">
+
+        <!-- EDIT PROFILE -->
+        <div class="settings-card">
+
+            <h3>♙ Personal Information</h3>
+
+            <p class="settings-description">
+                Update your account details.
+            </p>
+
+            <form action="{{ url_for('update_profile') }}"
+                  method="POST">
+
+                <label>Full Name</label>
+
+                <input
+                    type="text"
+                    name="name"
+                    value="{{ user['name'] }}"
+                    placeholder="Enter your name"
+                    maxlength="100"
+                    required
+                >
+
+                <label>Email Address</label>
+
+                <input
+                    type="email"
+                    name="email"
+                    value="{{ user['email'] }}"
+                    placeholder="Enter your email"
+                    required
+                >
+
+                <button type="submit" class="save-btn">
+                    Save Changes
+                </button>
+
+            </form>
+
+        </div>
+
+
+        <!-- CHANGE PASSWORD -->
+        <div class="settings-card">
+
+            <h3>🔒 Change Password</h3>
+
+            <p class="settings-description">
+                Protect your account with a new password.
+            </p>
+
+            <form action="{{ url_for('change_password') }}"
+                  method="POST">
+
+                <label>Current Password</label>
+
+                <input
+                    type="password"
+                    name="current_password"
+                    placeholder="Enter current password"
+                    required
+                >
+
+                <label>New Password</label>
+
+                <input
+                    type="password"
+                    name="new_password"
+                    placeholder="Minimum 8 characters"
+                    minlength="8"
+                    required
+                >
+
+                <label>Confirm New Password</label>
+
+                <input
+                    type="password"
+                    name="confirm_password"
+                    placeholder="Confirm new password"
+                    minlength="8"
+                    required
+                >
+
+                <button type="submit" class="save-btn">
+                    Update Password
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</section>
+
+        <!-- FOOTER -->
+        <footer>
+            © 2026 AdminPanel | Developed using Python Flask
+        </footer>
+
+    </main>
+
+</div>
+
+</body>
+</html>

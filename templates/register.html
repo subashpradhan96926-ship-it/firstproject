@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Registration</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="register-container">
+
+        <h2>Create Account</h2>
+
+        {% with messages = get_flashed_messages() %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+
+            <input type="text" name="name"
+            placeholder="Enter Name" required>
+
+            <input type="email" name="email"
+            placeholder="Enter Email" required>
+
+            <input type="password" name="password"
+            placeholder="Enter Password" required>
+
+            <button type="submit">Register</button>
+
+        </form>
+
+        <p>Already have an account?
+            <a href="/login">Login</a>
+        </p>
+
+    </div>
+
+</body>
+</html>

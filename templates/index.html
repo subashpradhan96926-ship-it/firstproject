@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Website</title>
+
+    <link rel="stylesheet"
+    href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <div class="home-container">
+
+        <div class="logo">
+            &lt;/&gt;
+        </div>
+
+        <h1>
+            Welcome to My<br>
+            <span>Website</span>
+        </h1>
+
+        <p> Login and Registration System</p>
+
+        <div class="buttons">
+
+            <a href="/register" class="btn">
+                Register
+            </a>
+
+            <a href="/login" class="btn">
+                Login
+            </a>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
